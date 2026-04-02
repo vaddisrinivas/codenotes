@@ -1,0 +1,202 @@
+{
+  "name": "codenotes",
+  "displayName": "CodeNotes",
+  "description": "Local-only, git-aware code annotations that never get committed",
+  "version": "0.2.0",
+  "publisher": "srinivasvaddi",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codenotes.addNote",
+        "title": "Add Note",
+        "category": "CodeNotes",
+        "icon": "$(add)"
+      },
+      {
+        "command": "codenotes.editNote",
+        "title": "Edit Note",
+        "category": "CodeNotes",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "codenotes.deleteNote",
+        "title": "Delete Note",
+        "category": "CodeNotes",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "codenotes.navigateToNote",
+        "title": "Go to Note",
+        "category": "CodeNotes"
+      },
+      {
+        "command": "codenotes.nextNote",
+        "title": "Next Note",
+        "category": "CodeNotes",
+        "icon": "$(arrow-down)"
+      },
+      {
+        "command": "codenotes.prevNote",
+        "title": "Previous Note",
+        "category": "CodeNotes",
+        "icon": "$(arrow-up)"
+      },
+      {
+        "command": "codenotes.searchNotes",
+        "title": "Search Notes",
+        "category": "CodeNotes",
+        "icon": "$(search)"
+      },
+      {
+        "command": "codenotes.refreshNotes",
+        "title": "Refresh Notes",
+        "category": "CodeNotes",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "codenotes.resolveOrphans",
+        "title": "Resolve Orphaned Notes",
+        "category": "CodeNotes"
+      },
+      {
+        "command": "codenotes.exportNotes",
+        "title": "Export Notes",
+        "category": "CodeNotes"
+      },
+      {
+        "command": "codenotes.importNotes",
+        "title": "Import Notes",
+        "category": "CodeNotes"
+      },
+      {
+        "command": "codenotes.installHook",
+        "title": "Install Pre-Commit Hook",
+        "category": "CodeNotes"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "codenotes.addNote",
+          "group": "codenotes@1",
+          "when": "editorTextFocus"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "codenotes.refreshNotes",
+          "when": "view == codenotes.notesList",
+          "group": "navigation@1"
+        },
+        {
+          "command": "codenotes.searchNotes",
+          "when": "view == codenotes.notesList",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "codenotes.editNote",
+          "when": "view == codenotes.notesList && viewItem == noteItem",
+          "group": "inline@1"
+        },
+        {
+          "command": "codenotes.deleteNote",
+          "when": "view == codenotes.notesList && viewItem == noteItem",
+          "group": "inline@2"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codenotes-sidebar",
+          "title": "CodeNotes",
+          "icon": "resources/icons/note.svg"
+        }
+      ]
+    },
+    "views": {
+      "codenotes-sidebar": [
+        {
+          "id": "codenotes.notesList",
+          "name": "Notes"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "CodeNotes",
+      "properties": {
+        "codenotes.inlinePreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show inline text preview of notes after the code line"
+        },
+        "codenotes.maxInlineLength": {
+          "type": "number",
+          "default": 60,
+          "description": "Maximum characters to show in inline note preview"
+        },
+        "codenotes.orphanWarning": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show warning decorations for orphaned notes"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "codenotes.addNote",
+        "key": "ctrl+alt+n",
+        "mac": "cmd+alt+n",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codenotes.nextNote",
+        "key": "ctrl+alt+]",
+        "mac": "cmd+alt+]",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codenotes.prevNote",
+        "key": "ctrl+alt+[",
+        "mac": "cmd+alt+[",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codenotes.searchNotes",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "package": "vsce package --allow-missing-repository",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {
+    "simple-git": "^3.22.0"
+  }
+}

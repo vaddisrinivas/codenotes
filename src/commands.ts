@@ -23,26 +23,26 @@ export function registerCommands(
   deps: CommandDeps
 ): void {
   context.subscriptions.push(
-    vscode.commands.registerCommand('codenotes.addNote', () => addNote(deps)),
-    vscode.commands.registerCommand('codenotes.editNote', (noteId?: string) =>
+    vscode.commands.registerCommand('gutternotes.addNote', () => addNote(deps)),
+    vscode.commands.registerCommand('gutternotes.editNote', (noteId?: string) =>
       editNote(deps, noteId)
     ),
-    vscode.commands.registerCommand('codenotes.deleteNote', (noteId?: string) =>
+    vscode.commands.registerCommand('gutternotes.deleteNote', (noteId?: string) =>
       deleteNote(deps, noteId)
     ),
-    vscode.commands.registerCommand('codenotes.navigateToNote', (noteId?: string) =>
+    vscode.commands.registerCommand('gutternotes.navigateToNote', (noteId?: string) =>
       navigateToNote(deps, noteId)
     ),
-    vscode.commands.registerCommand('codenotes.nextNote', () => jumpNote(deps, 'next')),
-    vscode.commands.registerCommand('codenotes.prevNote', () => jumpNote(deps, 'prev')),
-    vscode.commands.registerCommand('codenotes.searchNotes', () => searchNotes(deps)),
-    vscode.commands.registerCommand('codenotes.refreshNotes', () => refreshNotes(deps)),
-    vscode.commands.registerCommand('codenotes.resolveOrphans', () =>
+    vscode.commands.registerCommand('gutternotes.nextNote', () => jumpNote(deps, 'next')),
+    vscode.commands.registerCommand('gutternotes.prevNote', () => jumpNote(deps, 'prev')),
+    vscode.commands.registerCommand('gutternotes.searchNotes', () => searchNotes(deps)),
+    vscode.commands.registerCommand('gutternotes.refreshNotes', () => refreshNotes(deps)),
+    vscode.commands.registerCommand('gutternotes.resolveOrphans', () =>
       resolveOrphans(deps)
     ),
-    vscode.commands.registerCommand('codenotes.exportNotes', () => exportNotes(deps)),
-    vscode.commands.registerCommand('codenotes.importNotes', () => importNotes(deps)),
-    vscode.commands.registerCommand('codenotes.installHook', () =>
+    vscode.commands.registerCommand('gutternotes.exportNotes', () => exportNotes(deps)),
+    vscode.commands.registerCommand('gutternotes.importNotes', () => importNotes(deps)),
+    vscode.commands.registerCommand('gutternotes.installHook', () =>
       installHook(deps.repoPath)
     )
   );
@@ -147,7 +147,7 @@ async function getMultiLineInput(title: string): Promise<string | undefined> {
 
   // Show instructions
   vscode.window.showInformationMessage(
-    'Type your note, then run "CodeNotes: Save Note" (Cmd+Shift+P) or close the tab to save.'
+    'Type your note, then run "GutterNotes: Save Note" (Cmd+Shift+P) or close the tab to save.'
   );
 
   return new Promise<string | undefined>((resolve) => {
@@ -246,7 +246,7 @@ async function navigateToNote(deps: CommandDeps, noteId?: string): Promise<void>
     editor.revealRange(range, vscode.TextEditorRevealType.InCenter);
   } catch (err) {
     vscode.window.showErrorMessage(
-      `CodeNotes: Could not open file: ${err instanceof Error ? err.message : 'unknown error'}`
+      `GutterNotes: Could not open file: ${err instanceof Error ? err.message : 'unknown error'}`
     );
   }
 }
@@ -263,7 +263,7 @@ async function jumpNote(deps: CommandDeps, direction: 'next' | 'prev'): Promise<
     .sort((a, b) => a.resolvedLine! - b.resolvedLine!);
 
   if (fileNotes.length === 0) {
-    vscode.window.showInformationMessage('CodeNotes: No notes in this file');
+    vscode.window.showInformationMessage('GutterNotes: No notes in this file');
     return;
   }
 
@@ -296,7 +296,7 @@ async function jumpNote(deps: CommandDeps, direction: 'next' | 'prev'): Promise<
 async function searchNotes(deps: CommandDeps): Promise<void> {
   const store = deps.getStore();
   if (store.notes.length === 0) {
-    vscode.window.showInformationMessage('CodeNotes: No notes yet');
+    vscode.window.showInformationMessage('GutterNotes: No notes yet');
     return;
   }
 
@@ -335,7 +335,7 @@ async function refreshNotes(deps: CommandDeps): Promise<void> {
   await deps.refreshEditor();
   deps.refreshTree();
   deps.updateStatusBar();
-  vscode.window.showInformationMessage('CodeNotes: Refreshed all notes');
+  vscode.window.showInformationMessage('GutterNotes: Refreshed all notes');
 }
 
 // --- Resolve Orphans (with re-anchor option) ---
@@ -345,7 +345,7 @@ async function resolveOrphans(deps: CommandDeps): Promise<void> {
   const orphans = store.notes.filter((n) => n.orphaned);
 
   if (orphans.length === 0) {
-    vscode.window.showInformationMessage('CodeNotes: No orphaned notes');
+    vscode.window.showInformationMessage('GutterNotes: No orphaned notes');
     return;
   }
 
@@ -386,7 +386,7 @@ async function resolveOrphans(deps: CommandDeps): Promise<void> {
     // Re-anchor to current cursor
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-      vscode.window.showWarningMessage('CodeNotes: Open a file and place cursor where you want the note');
+      vscode.window.showWarningMessage('GutterNotes: Open a file and place cursor where you want the note');
       return;
     }
 
@@ -437,7 +437,7 @@ async function resolveOrphans(deps: CommandDeps): Promise<void> {
 
 async function exportNotes(deps: CommandDeps): Promise<void> {
   const uri = await vscode.window.showSaveDialog({
-    defaultUri: vscode.Uri.file(path.join(deps.repoPath, 'codenotes-export.json')),
+    defaultUri: vscode.Uri.file(path.join(deps.repoPath, 'gutternotes-export.json')),
     filters: { 'JSON files': ['json'] },
   });
   if (!uri) return;
@@ -445,10 +445,10 @@ async function exportNotes(deps: CommandDeps): Promise<void> {
   try {
     await storage.exportNotes(deps.getStore(), uri.fsPath);
     vscode.window.showInformationMessage(
-      `CodeNotes: Exported ${deps.getStore().notes.length} notes to ${path.basename(uri.fsPath)}`
+      `GutterNotes: Exported ${deps.getStore().notes.length} notes to ${path.basename(uri.fsPath)}`
     );
   } catch (err) {
-    vscode.window.showErrorMessage(`CodeNotes: Export failed: ${err}`);
+    vscode.window.showErrorMessage(`GutterNotes: Export failed: ${err}`);
   }
 }
 
@@ -468,7 +468,7 @@ async function importNotes(deps: CommandDeps): Promise<void> {
     const newNotes = imported.notes.filter((n) => !existingIds.has(n.id));
 
     if (newNotes.length === 0) {
-      vscode.window.showInformationMessage('CodeNotes: No new notes to import');
+      vscode.window.showInformationMessage('GutterNotes: No new notes to import');
       return;
     }
 
@@ -481,9 +481,9 @@ async function importNotes(deps: CommandDeps): Promise<void> {
     await deps.refreshEditor();
     deps.refreshTree();
     deps.updateStatusBar();
-    vscode.window.showInformationMessage(`CodeNotes: Imported ${newNotes.length} notes`);
+    vscode.window.showInformationMessage(`GutterNotes: Imported ${newNotes.length} notes`);
   } catch (err) {
-    vscode.window.showErrorMessage(`CodeNotes: Import failed: ${err}`);
+    vscode.window.showErrorMessage(`GutterNotes: Import failed: ${err}`);
   }
 }
 
@@ -495,14 +495,14 @@ async function installHook(repoPath: string): Promise<void> {
   const hookPath = path.join(hooksDir, 'pre-commit');
 
   const hookSnippet = `
-# BEGIN CODENOTES
+# BEGIN GUTTERNOTES
 # Safety net: prevent accidental note markers from being committed
-if git diff --cached --diff-filter=ACM -U0 | grep -q '§n\\|CODENOTE:'; then
-  echo "CodeNotes: Found note markers in staged changes."
+if git diff --cached --diff-filter=ACM -U0 | grep -q '§n\\|GUTTERNOTE:'; then
+  echo "GutterNotes: Found note markers in staged changes."
   echo "Please remove them before committing."
   exit 1
 fi
-# END CODENOTES
+# END GUTTERNOTES
 `;
 
   try {
@@ -515,8 +515,8 @@ fi
       // No existing hook
     }
 
-    if (existing.includes('BEGIN CODENOTES')) {
-      vscode.window.showInformationMessage('CodeNotes: Pre-commit hook already installed');
+    if (existing.includes('BEGIN GUTTERNOTES')) {
+      vscode.window.showInformationMessage('GutterNotes: Pre-commit hook already installed');
       return;
     }
 
@@ -525,9 +525,9 @@ fi
       : '#!/bin/sh\n' + hookSnippet;
 
     await fs.promises.writeFile(hookPath, content, { mode: 0o755 });
-    vscode.window.showInformationMessage('CodeNotes: Pre-commit hook installed');
+    vscode.window.showInformationMessage('GutterNotes: Pre-commit hook installed');
   } catch (err) {
-    vscode.window.showErrorMessage(`CodeNotes: Failed to install hook: ${err}`);
+    vscode.window.showErrorMessage(`GutterNotes: Failed to install hook: ${err}`);
   }
 }
 

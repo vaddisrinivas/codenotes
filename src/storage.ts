@@ -6,7 +6,7 @@ import { CodeNote, RepoNotesStore } from './types';
 
 const STORE_DIR = path.join(
   process.env.HOME || process.env.USERPROFILE || '~',
-  '.codenotes'
+  '.gutternotes'
 );
 const STORE_VERSION = 1;
 
@@ -41,7 +41,7 @@ export async function loadNotes(repoPath: string): Promise<RepoNotesStore> {
     }
     // For parse errors or other issues, warn the user and create backup
     vscode.window.showWarningMessage(
-      `CodeNotes: Could not load notes (${err instanceof Error ? err.message : 'unknown error'}). Starting with empty store. A backup was saved.`
+      `GutterNotes: Could not load notes (${err instanceof Error ? err.message : 'unknown error'}). Starting with empty store. A backup was saved.`
     );
     try {
       const backup = storePath + '.backup.' + Date.now();

@@ -28,7 +28,7 @@ export function createDecorationTypes(context: vscode.ExtensionContext): void {
 }
 
 export function applyDecorations(editor: vscode.TextEditor, notes: CodeNote[]): void {
-  const config = vscode.workspace.getConfiguration('codenotes');
+  const config = vscode.workspace.getConfiguration('gutternotes');
   const showInline = config.get<boolean>('inlinePreview', true);
   const maxLen = config.get<number>('maxInlineLength', 60);
   const showOrphanWarning = config.get<boolean>('orphanWarning', true);

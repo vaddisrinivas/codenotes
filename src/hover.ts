@@ -36,8 +36,8 @@ export function createHoverProvider(resolveNotes: NoteResolver): vscode.HoverPro
       const deleteArgs = encodeURIComponent(JSON.stringify([note.id]));
 
       md.appendMarkdown(
-        `[$(edit) Edit](command:codenotes.editNote?${editArgs}) &nbsp; ` +
-          `[$(trash) Delete](command:codenotes.deleteNote?${deleteArgs})\n\n`
+        `[$(edit) Edit](command:gutternotes.editNote?${editArgs}) &nbsp; ` +
+          `[$(trash) Delete](command:gutternotes.deleteNote?${deleteArgs})\n\n`
       );
 
       // Relative timestamps

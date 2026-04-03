@@ -46,7 +46,7 @@ class NoteItem extends vscode.TreeItem {
     }
 
     this.command = {
-      command: 'codenotes.navigateToNote',
+      command: 'gutternotes.navigateToNote',
       title: 'Go to Note',
       arguments: [note.id],
     };

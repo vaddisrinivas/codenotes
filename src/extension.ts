@@ -39,14 +39,14 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
   // Status bar
   statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-  statusBarItem.command = 'codenotes.searchNotes';
+  statusBarItem.command = 'gutternotes.searchNotes';
   statusBarItem.tooltip = 'Click to search notes';
   context.subscriptions.push(statusBarItem);
 
   // Tree view
   treeProvider = new NotesTreeProvider(context.extensionPath);
   treeProvider.setStore(store);
-  const treeView = vscode.window.createTreeView('codenotes.notesList', {
+  const treeView = vscode.window.createTreeView('gutternotes.notesList', {
     treeDataProvider: treeProvider,
     showCollapseAll: true,
   });

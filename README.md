@@ -1,4 +1,4 @@
-# CodeNotes
+# GutterNotes
 
 **Local-only code annotations that survive git merges, rebases, and branch switches.**
 
@@ -18,10 +18,10 @@ The fundamental tension: **inline notes move with code but get committed. Extern
 
 ## The Solution
 
-CodeNotes stores annotations externally (never in your repo) but anchors them using `git blame` — the same mechanism git uses to track where every line came from. When lines move during a rebase or merge, blame still knows their origin. Your notes follow automatically.
+GutterNotes stores annotations externally (never in your repo) but anchors them using `git blame` — the same mechanism git uses to track where every line came from. When lines move during a rebase or merge, blame still knows their origin. Your notes follow automatically.
 
 ```
-Your working tree          CodeNotes store (~/.codenotes/)
+Your working tree          GutterNotes store (~/.gutternotes/)
 ┌─────────────────┐        ┌──────────────────────────────┐
 │ const token =   │◄──────►│ anchor: (commit a1b2, L38)   │
 │   jwt.sign(...) │        │ note: "Should use RS256"     │
@@ -41,17 +41,17 @@ Notes are **never committed, never pushed, never visible to your team**. They ex
 
 ```bash
 # VS Code
-code --install-extension codenotes-0.2.0.vsix
+code --install-extension gutternotes-0.2.0.vsix
 
 # Cursor
-cursor --install-extension codenotes-0.2.0.vsix
+cursor --install-extension gutternotes-0.2.0.vsix
 ```
 
 Or build from source:
 
 ```bash
-git clone https://github.com/vaddisrinivas/codenotes.git
-cd codenotes
+git clone https://github.com/vaddisrinivas/gutternotes.git
+cd gutternotes
 npm install
 npm run build
 npx vsce package --allow-missing-repository
@@ -89,19 +89,19 @@ Each category gets its own colored gutter icon:
 
 ### Other commands (Cmd+Shift+P)
 
-- **CodeNotes: Export Notes** — save all notes to a JSON file for backup
-- **CodeNotes: Import Notes** — restore from a previous export (merges, deduplicates)
-- **CodeNotes: Resolve Orphaned Notes** — re-anchor or delete notes whose lines were removed
-- **CodeNotes: Refresh Notes** — force re-resolve all anchors (after a big rebase)
-- **CodeNotes: Install Pre-Commit Hook** — safety net that blocks accidental note markers
+- **GutterNotes: Export Notes** — save all notes to a JSON file for backup
+- **GutterNotes: Import Notes** — restore from a previous export (merges, deduplicates)
+- **GutterNotes: Resolve Orphaned Notes** — re-anchor or delete notes whose lines were removed
+- **GutterNotes: Refresh Notes** — force re-resolve all anchors (after a big rebase)
+- **GutterNotes: Install Pre-Commit Hook** — safety net that blocks accidental note markers
 
 ## How It Works
 
 ### Blame-based anchoring
 
-When you add a note on a line, CodeNotes runs `git blame` to find that line's **origin**: the commit, file, and line number where it was first introduced. This triple `(commit, file, line)` is a stable identity — it doesn't change when the line moves around.
+When you add a note on a line, GutterNotes runs `git blame` to find that line's **origin**: the commit, file, and line number where it was first introduced. This triple `(commit, file, line)` is a stable identity — it doesn't change when the line moves around.
 
-On every file open/save, CodeNotes re-runs blame and matches stored anchors to current line positions:
+On every file open/save, GutterNotes re-runs blame and matches stored anchors to current line positions:
 
 1. **Exact match** — same `(commit, file, line)` still exists → note stays
 2. **Content match** — line was re-committed but content is identical → note follows
@@ -121,7 +121,7 @@ On every file open/save, CodeNotes re-runs blame and matches stored anchors to c
 
 ### Storage
 
-Notes live at `~/.codenotes/<repo-hash>/notes.json`. Completely outside your repo — nothing to `.gitignore`, zero risk of committing.
+Notes live at `~/.gutternotes/<repo-hash>/notes.json`. Completely outside your repo — nothing to `.gitignore`, zero risk of committing.
 
 ### Uncommitted lines
 
@@ -131,9 +131,9 @@ Notes on lines you haven't committed yet use a temporary anchor `(lineNumber, co
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `codenotes.inlinePreview` | `true` | Show inline text after annotated lines |
-| `codenotes.maxInlineLength` | `60` | Max characters in inline preview |
-| `codenotes.orphanWarning` | `true` | Show warning decorations for orphaned notes |
+| `gutternotes.inlinePreview` | `true` | Show inline text after annotated lines |
+| `gutternotes.maxInlineLength` | `60` | Max characters in inline preview |
+| `gutternotes.orphanWarning` | `true` | Show warning decorations for orphaned notes |
 
 ## Development
 

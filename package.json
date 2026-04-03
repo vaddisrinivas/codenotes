@@ -1,6 +1,6 @@
 {
-  "name": "codenotes",
-  "displayName": "CodeNotes",
+  "name": "gutternotes",
+  "displayName": "GutterNotes",
   "description": "Local-only, git-aware code annotations that never get committed",
   "version": "0.2.0",
   "publisher": "srinivasvaddi",
@@ -17,102 +17,102 @@
   "contributes": {
     "commands": [
       {
-        "command": "codenotes.addNote",
+        "command": "gutternotes.addNote",
         "title": "Add Note",
-        "category": "CodeNotes",
+        "category": "GutterNotes",
         "icon": "$(add)"
       },
       {
-        "command": "codenotes.editNote",
+        "command": "gutternotes.editNote",
         "title": "Edit Note",
-        "category": "CodeNotes",
+        "category": "GutterNotes",
         "icon": "$(edit)"
       },
       {
-        "command": "codenotes.deleteNote",
+        "command": "gutternotes.deleteNote",
         "title": "Delete Note",
-        "category": "CodeNotes",
+        "category": "GutterNotes",
         "icon": "$(trash)"
       },
       {
-        "command": "codenotes.navigateToNote",
+        "command": "gutternotes.navigateToNote",
         "title": "Go to Note",
-        "category": "CodeNotes"
+        "category": "GutterNotes"
       },
       {
-        "command": "codenotes.nextNote",
+        "command": "gutternotes.nextNote",
         "title": "Next Note",
-        "category": "CodeNotes",
+        "category": "GutterNotes",
         "icon": "$(arrow-down)"
       },
       {
-        "command": "codenotes.prevNote",
+        "command": "gutternotes.prevNote",
         "title": "Previous Note",
-        "category": "CodeNotes",
+        "category": "GutterNotes",
         "icon": "$(arrow-up)"
       },
       {
-        "command": "codenotes.searchNotes",
+        "command": "gutternotes.searchNotes",
         "title": "Search Notes",
-        "category": "CodeNotes",
+        "category": "GutterNotes",
         "icon": "$(search)"
       },
       {
-        "command": "codenotes.refreshNotes",
+        "command": "gutternotes.refreshNotes",
         "title": "Refresh Notes",
-        "category": "CodeNotes",
+        "category": "GutterNotes",
         "icon": "$(refresh)"
       },
       {
-        "command": "codenotes.resolveOrphans",
+        "command": "gutternotes.resolveOrphans",
         "title": "Resolve Orphaned Notes",
-        "category": "CodeNotes"
+        "category": "GutterNotes"
       },
       {
-        "command": "codenotes.exportNotes",
+        "command": "gutternotes.exportNotes",
         "title": "Export Notes",
-        "category": "CodeNotes"
+        "category": "GutterNotes"
       },
       {
-        "command": "codenotes.importNotes",
+        "command": "gutternotes.importNotes",
         "title": "Import Notes",
-        "category": "CodeNotes"
+        "category": "GutterNotes"
       },
       {
-        "command": "codenotes.installHook",
+        "command": "gutternotes.installHook",
         "title": "Install Pre-Commit Hook",
-        "category": "CodeNotes"
+        "category": "GutterNotes"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "codenotes.addNote",
-          "group": "codenotes@1",
+          "command": "gutternotes.addNote",
+          "group": "gutternotes@1",
           "when": "editorTextFocus"
         }
       ],
       "view/title": [
         {
-          "command": "codenotes.refreshNotes",
-          "when": "view == codenotes.notesList",
+          "command": "gutternotes.refreshNotes",
+          "when": "view == gutternotes.notesList",
           "group": "navigation@1"
         },
         {
-          "command": "codenotes.searchNotes",
-          "when": "view == codenotes.notesList",
+          "command": "gutternotes.searchNotes",
+          "when": "view == gutternotes.notesList",
           "group": "navigation@2"
         }
       ],
       "view/item/context": [
         {
-          "command": "codenotes.editNote",
-          "when": "view == codenotes.notesList && viewItem == noteItem",
+          "command": "gutternotes.editNote",
+          "when": "view == gutternotes.notesList && viewItem == noteItem",
           "group": "inline@1"
         },
         {
-          "command": "codenotes.deleteNote",
-          "when": "view == codenotes.notesList && viewItem == noteItem",
+          "command": "gutternotes.deleteNote",
+          "when": "view == gutternotes.notesList && viewItem == noteItem",
           "group": "inline@2"
         }
       ]
@@ -120,34 +120,34 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "codenotes-sidebar",
-          "title": "CodeNotes",
+          "id": "gutternotes-sidebar",
+          "title": "GutterNotes",
           "icon": "resources/icons/note.svg"
         }
       ]
     },
     "views": {
-      "codenotes-sidebar": [
+      "gutternotes-sidebar": [
         {
-          "id": "codenotes.notesList",
+          "id": "gutternotes.notesList",
           "name": "Notes"
         }
       ]
     },
     "configuration": {
-      "title": "CodeNotes",
+      "title": "GutterNotes",
       "properties": {
-        "codenotes.inlinePreview": {
+        "gutternotes.inlinePreview": {
           "type": "boolean",
           "default": true,
           "description": "Show inline text preview of notes after the code line"
         },
-        "codenotes.maxInlineLength": {
+        "gutternotes.maxInlineLength": {
           "type": "number",
           "default": 60,
           "description": "Maximum characters to show in inline note preview"
         },
-        "codenotes.orphanWarning": {
+        "gutternotes.orphanWarning": {
           "type": "boolean",
           "default": true,
           "description": "Show warning decorations for orphaned notes"
@@ -156,25 +156,25 @@
     },
     "keybindings": [
       {
-        "command": "codenotes.addNote",
+        "command": "gutternotes.addNote",
         "key": "ctrl+alt+n",
         "mac": "cmd+alt+n",
         "when": "editorTextFocus"
       },
       {
-        "command": "codenotes.nextNote",
+        "command": "gutternotes.nextNote",
         "key": "ctrl+alt+]",
         "mac": "cmd+alt+]",
         "when": "editorTextFocus"
       },
       {
-        "command": "codenotes.prevNote",
+        "command": "gutternotes.prevNote",
         "key": "ctrl+alt+[",
         "mac": "cmd+alt+[",
         "when": "editorTextFocus"
       },
       {
-        "command": "codenotes.searchNotes",
+        "command": "gutternotes.searchNotes",
         "key": "ctrl+alt+f",
         "mac": "cmd+alt+f",
         "when": "editorTextFocus"
